@@ -17,8 +17,8 @@
 	<div class='toggle'>
 		<input id='rj-districts-cvu7zr' type='checkbox' checked>
 		<label for='rj-districts-cvu7zr'>Districts</label>
-		<input id='suhairkk.2mkggpex' type='checkbox' checked>
-		<label for='suhairkk.2mkggpex'>GMAPS Units</label>
+		<input id='declared-units-a9dcnd' type='checkbox' checked>
+		<label for='declared-units-a9dcnd'>GMAPS Units</label>
 		<input id='traced-units-0cngfu' type='checkbox' checked>
 		<label for='traced-units-0cngfu'>CRVS Units</label>
 	</div>
@@ -39,10 +39,10 @@
 			map.setLayoutProperty('rj-districts-cvu7zr', 'visibility', visibility);
 		});
 
-		var layer2Toggle = document.getElementById('suhairkk.2mkggpex');
+		var layer2Toggle = document.getElementById('declared-units-a9dcnd');
 		layer2Toggle.addEventListener('change', function() {
 			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('suhairkk.2mkggpex', 'visibility', visibility);
+			map.setLayoutProperty('declared-units-a9dcnd', 'visibility', visibility);
 		});
 
 		var layer3Toggle = document.getElementById('traced-units-0cngfu');
@@ -53,7 +53,7 @@
 		
 		// Add a function to update the map view when layer visibility changes
 		function updateMap() {
-		    var layers = ['rj-districts-cvu7zr', 'suhairkk.2mkggpex', 'ltraced-units-0cngfu'];
+		    var layers = ['rj-districts-cvu7zr', 'declared-units-a9dcnd', 'traced-units-0cngfu'];
 		    var visibleLayers = [];
 		    for (var i = 0; i < layers.length; i++) {
 			if (document.getElementById(layers[i]).checked) {
@@ -61,13 +61,13 @@
 			}
 		    }
 		    map.setLayoutProperty('rj-districts-cvu7zr', 'visibility', visibleLayers.indexOf('rj-districts-cvu7zr') !== -1 ? 'visible' : 'none');
-		    map.setLayoutProperty('suhairkk.2mkggpex', 'visibility', visibleLayers.indexOf('suhairkk.2mkggpex') !== -1 ? 'visible' : 'none');
+		    map.setLayoutProperty('declared-units-a9dcnd', 'visibility', visibleLayers.indexOf('declared-units-a9dcnd') !== -1 ? 'visible' : 'none');
 		    map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibleLayers.indexOf('traced-units-0cngfu') !== -1 ? 'visible' : 'none');
 		}
 
 		// Attach the updateMap function to the checkboxes
 		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
-		document.getElementById('suhairkk.2mkggpex').addEventListener('change', updateMap);
+		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
 	</script>
 </body>
