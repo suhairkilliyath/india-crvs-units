@@ -69,6 +69,26 @@
 		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
 		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
+		
+		map.addLayer({
+		  id: 'rj-districts-cvu7zr',
+		  type: 'fill',
+		  source: 'source1',
+		  paint: {
+		    'fill-color': 'blue',
+		    'fill-opacity': 0.5,
+		  },
+		  layout: {
+		    visibility: 'visible',
+		  },
+		  'text-field': ['get', 'district_name'],
+		  'text-size': 14,
+		  'text-color': '#000',
+		  'text-opacity': 0.8,
+		  'text-halo-color': '#fff',
+		  'text-halo-width': 1,
+		});
+
 	</script>
 </body>
 </html>
