@@ -2,91 +2,26 @@
 <html>
 <head>
 	<meta charset='utf-8' />
-	<title>Mapbox Style Map</title>
+	<title>Mapbox Style</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
 	<style>
 		body { margin: 0; padding: 0; }
 		#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-		#filters { position: absolute; top: 10px; left: 10px; z-index: 1; background: rgba(255, 255, 255, 0.8); padding: 10px; }
-		.filter { margin-bottom: 10px; }
 	</style>
 </head>
 <body>
 	<div id='map'></div>
+
 	<script>
-	  mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2t3ZG5oN3hhMGxtazJucXZwc3U4ZmszbiJ9.FcdBbEoryTBwLU56AoI5qg';
-	  var map = new mapboxgl.Map({
-	    container: 'map',
-	    style: 'mapbox://styles/suhairkk/clgkrlzq3008d01pcgjozhb8m', // replace with your style ID
-	    center: [73.8567, 20.5937], // replace with your desired center coordinates
-	    zoom: 8 // replace with your desired zoom level
-	  });
-	</script>
-	<div id="map" style="width: 100%; height: 600px;"></div>
-	<div id='filters'>
-		<div class='filter'>
-			<label for='district'>Choose a district:</label>
-			<select id='district'>
-				<option value=''>All</option>
-				<option value='District A'>District A</option>
-				<option value='District B'>District B</option>
-				<option value='District C'>District C</option>
-			</select>
-		</div>
-		<div class='filter'>
-			<label for='unit-type'>Choose unit types:</label>
-				<select id='unit-type' multiple>
-					<option value='Type A'>Type A</option>
-					<option value='Type B'>Type B</option>
-					<option value='Type C'>Type C</option>
-				</select>
-		</div>
-	</div>
-	<script src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js'></script>
-	<script>
-		mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2t3ZG5oN3hhMGxtazJucXZwc3U4ZmszbiJ9.FcdBbEoryTBwLU56AoI5qg';
+		mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2xna3JrcG5mMDJ3ejNlcWlhc3lzem53MCJ9.DRGs8WHcQgcy68JAwuKIlA';
 		var map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/suhairkk/clgkrlzq3008d01pcgjozhb8m',
-			center: [-74.5, 40],
-			zoom: 9
+			style: 'mapbox://styles/suhairkk/clgkrlzq3008d01pcgjozhb8m', // replace with your style ID
+			center: [73.8567, 20.5937], // replace with your desired center coordinates
+			zoom: 8 // replace with your desired zoom level
 		});
-		var districtFilter = null;
-		var unitTypeFilter = null;
-		var $districtSelect = document.getElementById('district');
-		var $unitTypeSelect = document.getElementById('unit-type');
-		var districts = ['Jaipur', 'Rajsamand', 'Jhalawar', 'Banswara', 'Alwar', 'Karauli',
-    'Dausa', 'Bharatpur', 'Chittaurgarh', 'Bundi', 'Ajmer', 'Udaipur',
-    'Sawai Madhopur', 'Bikaner', 'Baran', 'Tonk', 'Churu', 'Kota',
-    'Jodhpur', 'Ganganagar', 'Dhaulpur', 'Nagaur', 'Barmer',
-    'Jhunjhunun', 'Sikar', 'Jalor', 'Pali', 'Bhilwara', 'Jaisalmer',
-    'Hanumangarh', 'Dungarpur', 'Sirohi', 'Pratapgarh'];
-
-		$districtSelect.addEventListener('change', function(e) {
-			var district = e.target.value;
-			if (district !== '') {
-				districtFilter = ['==', ['get', 'district_name'], district];
-				map.setFilter('districts', districtFilter);
-				zoomToDistrict(district);
-			} else {
-				districtFilter = null;
-				map.setFilter('districts', null);
-			}
-			applyFilters();
-		});
-
-		$unitTypeSelect.addEventListener('change', function(e) {
-			var selectedOptions = [].slice.call(e.target.selectedOptions);
-			var unitTypes = selectedOptions.map(function(option) {
-				return option.value;
-			});
-			if (unitTypes.length > 0) {
-				unitTypeFilter = ['in', ['get', 'unit_type'], ['literal', unitTypes]];
-			} else{
-				unitTypeFilter = null;
-				map.setFilter('unitTypes', null);
-			}
-			applyFilters();
-		});
+	</script>
+</body>
+</html>
