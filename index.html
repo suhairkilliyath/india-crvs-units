@@ -29,26 +29,26 @@
 			container: 'map',
 			style: 'mapbox://styles/suhairkk/clgkrlzq3008d01pcgjozhb8m', // replace with your style ID
 			center: [73.8567, 20.5937], // replace with your desired center coordinates
-			zoom: 8 // replace with your desired zoom level
+			zoom: 4 // replace with your desired zoom level
 		});
 
 		// listen for changes to the toggle inputs
 		var layer1Toggle = document.getElementById('rj-districts-cvu7zr');
 		layer1Toggle.addEventListener('change', function() {
 			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('layer1', 'visibility', visibility);
+			map.setLayoutProperty('rj-districts-cvu7zr', 'visibility', visibility);
 		});
 
 		var layer2Toggle = document.getElementById('suhairkk.2mkggpex');
 		layer2Toggle.addEventListener('change', function() {
 			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('layer2', 'visibility', visibility);
+			map.setLayoutProperty('suhairkk.2mkggpex', 'visibility', visibility);
 		});
 
 		var layer3Toggle = document.getElementById('traced-units-0cngfu');
 		layer3Toggle.addEventListener('change', function() {
 			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('layer3', 'visibility', visibility);
+			map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibility);
 		});
 	</script>
 </body>
