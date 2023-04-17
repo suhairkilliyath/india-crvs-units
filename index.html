@@ -50,6 +50,25 @@
 			var visibility = this.checked ? 'visible' : 'none';
 			map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibility);
 		});
+		
+		// Add a function to update the map view when layer visibility changes
+		function updateMap() {
+		    var layers = ['rj-districts-cvu7zr', 'suhairkk.2mkggpex', 'ltraced-units-0cngfu'];
+		    var visibleLayers = [];
+		    for (var i = 0; i < layers.length; i++) {
+			if (document.getElementById(layers[i]).checked) {
+			    visibleLayers.push(layers[i]);
+			}
+		    }
+		    map.setLayoutProperty('rj-districts-cvu7zr', 'visibility', visibleLayers.indexOf('rj-districts-cvu7zr') !== -1 ? 'visible' : 'none');
+		    map.setLayoutProperty('suhairkk.2mkggpex', 'visibility', visibleLayers.indexOf('suhairkk.2mkggpex') !== -1 ? 'visible' : 'none');
+		    map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibleLayers.indexOf('traced-units-0cngfu') !== -1 ? 'visible' : 'none');
+		}
+
+		// Attach the updateMap function to the checkboxes
+		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
+		document.getElementById('suhairkk.2mkggpex').addEventListener('change', updateMap);
+		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
 	</script>
 </body>
 </html>
