@@ -1,21 +1,82 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Login Form</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="app.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <form>
-        <h1>Login</h1>
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
-        <label for="password"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" required>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </body>
-</html>
+<head>
+	<meta charset='utf-8' />
+	<title>Mapbox Style Map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+	<style>
+		body { margin: 0; padding: 0; }
+		#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+		#filters { position: absolute; top: 10px; left: 10px; z-index: 1; background: rgba(255, 255, 255, 0.8); padding: 10px; }
+		.filter { margin-bottom: 10px; }
+	</style>
+</head>
+<body>
+	<div id='map'></div>
+	<div id='filters'>
+		<div class='filter'>
+			<label for='district'>Choose a district:</label>
+			<select id='district'>
+				<option value=''>All</option>
+				<option value='District A'>District A</option>
+				<option value='District B'>District B</option>
+				<option value='District C'>District C</option>
+			</select>
+		</div>
+		<div class='filter'>
+			<label for='unit-type'>Choose unit types:</label>
+				<select id='unit-type' multiple>
+					<option value='Type A'>Type A</option>
+					<option value='Type B'>Type B</option>
+					<option value='Type C'>Type C</option>
+				</select>
+		</div>
+	</div>
+	<script src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js'></script>
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2t3ZG5oN3hhMGxtazJucXZwc3U4ZmszbiJ9.FcdBbEoryTBwLU56AoI5qg';
+		var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/suhairkk/clgkrlzq3008d01pcgjozhb8m',
+			center: [-74.5, 40],
+			zoom: 9
+		});
+		var districtFilter = null;
+		var unitTypeFilter = null;
+		var $districtSelect = document.getElementById('district');
+		var $unitTypeSelect = document.getElementById('unit-type');
+		var districts = ['Jaipur', 'Rajsamand', 'Jhalawar', 'Banswara', 'Alwar', 'Karauli',
+    'Dausa', 'Bharatpur', 'Chittaurgarh', 'Bundi', 'Ajmer', 'Udaipur',
+    'Sawai Madhopur', 'Bikaner', 'Baran', 'Tonk', 'Churu', 'Kota',
+    'Jodhpur', 'Ganganagar', 'Dhaulpur', 'Nagaur', 'Barmer',
+    'Jhunjhunun', 'Sikar', 'Jalor', 'Pali', 'Bhilwara', 'Jaisalmer',
+    'Hanumangarh', 'Dungarpur', 'Sirohi', 'Pratapgarh'];
+
+		$districtSelect.addEventListener('change', function(e) {
+			var district = e.target.value;
+			if (district !== '') {
+				districtFilter = ['==', ['get', 'district_name'], district];
+				map.setFilter('districts', districtFilter);
+				zoomToDistrict(district);
+			} else {
+				districtFilter = null;
+				map.setFilter('districts', null);
+			}
+			applyFilters();
+		});
+
+		$unitTypeSelect.addEventListener('change', function(e) {
+			var selectedOptions = [].slice.call(e.target.selectedOptions);
+			var unitTypes = selectedOptions.map(function(option) {
+				return option.value;
+			});
+			if (unitTypes.length > 0) {
+				unitTypeFilter = ['in', ['get', 'unit_type'], ['literal', unitTypes]];
+			} else{
+				unitTypeFilter = null;
+				map.setFilter('unitTypes', null);
+			}
+			applyFilters();
+		});
