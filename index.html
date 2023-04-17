@@ -70,23 +70,21 @@
 		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
 		
+		#show labels
 		map.addLayer({
-		  id: 'rj-districts-cvu7zr',
-		  type: 'fill',
-		  source: 'rj-districts-cvu7zr',
-		  paint: {
-		    'fill-color': 'blue',
-		    'fill-opacity': 0.5,
-		  },
-		  layout: {
-		    visibility: 'visible',
-		  },
-		  'text-field': ['get', 'district_name'],
-		  'text-size': 14,
-		  'text-color': '#000',
-		  'text-opacity': 0.8,
-		  'text-halo-color': '#fff',
-		  'text-halo-width': 1,
+		'id': 'rj-districts-cvu7zr',
+		'type': 'symbol',
+		'source': 'rj-districts-cvu7zr',
+		'layout': {
+		'text-field': ['get', 'district_name'],
+		'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+		'text-radial-offset': 0.5,
+		'text-justify': 'auto',
+		'icon-image': ['get', 'icon']
+		}
+		});
+
+		map.rotateTo(180, { duration: 10000 });
 		});
 
 	</script>
