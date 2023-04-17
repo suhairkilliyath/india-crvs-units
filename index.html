@@ -9,10 +9,19 @@
 	<style>
 		body { margin: 0; padding: 0; }
 		#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+		.toggle { position: absolute; top: 10px; left: 10px; z-index: 1; }
 	</style>
 </head>
 <body>
 	<div id='map'></div>
+	<div class='toggle'>
+		<input id='rj-districts-cvu7zr' type='checkbox' checked>
+		<label for='rj-districts-cvu7zr'>Layer 1</label>
+		<input id='suhairkk.2mkggpex' type='checkbox' checked>
+		<label for='suhairkk.2mkggpex'>Layer 2</label>
+		<input id='traced-units-0cngfu' type='checkbox' checked>
+		<label for='traced-units-0cngfu'>Layer 3</label>
+	</div>
 
 	<script>
 		mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2xna3JrcG5mMDJ3ejNlcWlhc3lzem53MCJ9.DRGs8WHcQgcy68JAwuKIlA';
@@ -20,7 +29,26 @@
 			container: 'map',
 			style: 'mapbox://styles/suhairkk/clgkrlzq3008d01pcgjozhb8m', // replace with your style ID
 			center: [73.8567, 20.5937], // replace with your desired center coordinates
-			zoom: 4 // replace with your desired zoom level
+			zoom: 8 // replace with your desired zoom level
+		});
+
+		// listen for changes to the toggle inputs
+		var layer1Toggle = document.getElementById('layer1');
+		layer1Toggle.addEventListener('change', function() {
+			var visibility = this.checked ? 'visible' : 'none';
+			map.setLayoutProperty('layer1', 'visibility', visibility);
+		});
+
+		var layer2Toggle = document.getElementById('layer2');
+		layer2Toggle.addEventListener('change', function() {
+			var visibility = this.checked ? 'visible' : 'none';
+			map.setLayoutProperty('layer2', 'visibility', visibility);
+		});
+
+		var layer3Toggle = document.getElementById('layer3');
+		layer3Toggle.addEventListener('change', function() {
+			var visibility = this.checked ? 'visible' : 'none';
+			map.setLayoutProperty('layer3', 'visibility', visibility);
 		});
 	</script>
 </body>
