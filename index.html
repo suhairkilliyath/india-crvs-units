@@ -71,6 +71,24 @@
 			center: [73.8567, 20.5937], // replace with your desired center coordinates
 			zoom: 4 // replace with your desired zoom level
 		});
+		
+		// show district labels
+		map.on('load', function() {
+		  map.addLayer({
+		    id: 'district_name',
+		    type: 'symbol',
+		    source: 'rj-districts-cvu7zr',
+		    layout: {
+		      'text-field': ['get', 'district_name'],
+		      'text-size': 12,
+		      'text-anchor': 'center'
+		    },
+		    paint: {
+		      'text-color': '#000000'
+		    }
+		  });
+		});
+
 
 		// listen for changes to the toggle inputs
 		var layer1Toggle = document.getElementById('rj-districts-cvu7zr');
