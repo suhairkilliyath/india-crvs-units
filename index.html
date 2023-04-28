@@ -75,20 +75,19 @@
 		// show district labels
 		map.on('load', function() {
 		  map.addLayer({
-		    id: 'district_name',
+		    id: 'district-labels',
 		    type: 'symbol',
-		    source: 'rj-districts-cvu7zr',
+		    source: 'rj_districts-cvu7zr',
 		    layout: {
-		      'text-field': ['get', 'district_name'],
+		      'text-field': ['get', 'district_name'], // replace 'name' with the name of the field containing the labels
 		      'text-size': 12,
 		      'text-anchor': 'center'
 		    },
 		    paint: {
-		      'text-color': '#000000'
+		      'text-color': '#FFFF00'
 		    }
 		  });
 		});
-
 
 		// listen for changes to the toggle inputs
 		var layer1Toggle = document.getElementById('rj-districts-cvu7zr');
