@@ -113,10 +113,10 @@
 		function filterPolygons(property) {
 		  if (!property) {
 		    // Show all polygons if no property is selected
-		    return ['!=', 'property', ''];
+		    return ['!=', 'pc11_district_id', ''];
 		  } else {
 		    // Show only polygons with the selected property
-		    return ['==', 'property', property];
+		    return ['==', 'pc11_district_id', property];
 		  }
 		}
 
