@@ -78,6 +78,29 @@
 		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
 		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
+		
+		// Define the district dropdown function
+		function filterPolygons(property) {
+		  if (!property) {
+		    // Show all polygons if no property is selected
+		    return ['!=', 'property', ''];
+		  } else {
+		    // Show only polygons with the selected property
+		    return ['==', 'property', property];
+		  }
+		}
+
+		// Apply initial filter to show all polygons
+		map.setFilter('multipolygon-layer', filterPolygons(''));
+
+		// Listen for changes to the dropdown element
+		document.getElementById('polygons').addEventListener('change', function() {
+		  // Get the selected value from the dropdown
+		  var selectedProperty = this.value;
+
+		  // Update the filter function with the selected property
+		  map.setFilter('multipolygon-layer', filterPolygons(selectedProperty));
+		});
 
 	</script>
 </body>
