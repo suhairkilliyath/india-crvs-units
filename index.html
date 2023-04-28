@@ -91,7 +91,7 @@
 		}
 
 		// Apply initial filter to show all polygons
-		map.setFilter('multipolygon-layer', filterPolygons(''));
+		map.setFilter('rj-districts-cvu7zr', filterPolygons(''));
 
 		// Listen for changes to the dropdown element
 		document.getElementById('polygons').addEventListener('change', function() {
@@ -99,7 +99,7 @@
 		  var selectedProperty = this.value;
 
 		  // Update the filter function with the selected property
-		  map.setFilter('multipolygon-layer', filterPolygons(selectedProperty));
+		  map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
 		});
 
 	</script>
