@@ -135,26 +135,12 @@
 		  if (!property) {
 		    // Show all polygons if no property is selected
 		    return ['!=', 'pc11_district_id', ''];
-		  } else {
+		    } 
+		  else {
 		    // Show only polygons with the selected property
 		    var filter = ['==', 'pc11_district_id', property];
-
-		    // Get the selected polygon
-		    var features = map.querySourceFeatures('rj-districts-cvu7zr', {
-		      filter: filter
-		    });
-		    var selectedPolygon = features[0];
-
-		    // Get the center of the selected polygon
-		    var center = turf.centerOfMass(selectedPolygon.geometry).geometry.coordinates;
-
-		    // Fly to the center of the selected polygon
-		    map.flyTo({
-		      center: center,
-		      zoom: 12
-		    });
 		    return filter;
-		  }
+		    }
 		}
 
 		// Update the filter function with the selected property
