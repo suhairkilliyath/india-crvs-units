@@ -113,8 +113,22 @@
 		
 		// Listen for changes to the dropdown element
 		document.getElementById('polygons').addEventListener('change', function() {
-		  // Get the selected value from the dropdown
-		  var selectedProperty = this.value;
+			// Get the selected value from the dropdown
+			var selectedProperty = this.value;
+			var filter = ['==', 'pc11_district_id', selectedProperty];
+			// Get the selected polygon
+		        var features = map.querySourceFeatures('rj-districts-cvu7zr', {
+		            filter: filter
+		             });
+		        var selectedPolygon = features[0];
+			// Get the center of the selected polygon
+			var center = turf.centerOfMass(selectedPolygon.geometry).geometry.coordinates;
+			// Fly to the center of the selected polygon
+			map.flyTo({
+			    center: center,
+			    zoom: 12
+			    });
+			});
 		
 		// Define the district dropdown function
 		function filterPolygons(property) {
