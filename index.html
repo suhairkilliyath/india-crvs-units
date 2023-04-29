@@ -131,16 +131,16 @@
 		});
 		
 		// Define the district dropdown function
-		function filterPolygons(selectedProperty) {			
-			  if (!selectedProperty) {
-			    // Show all polygons if no property is selected
-			    return ['!=', 'pc11_district_id', ''];
-			    } 
-			  else {
-			    // Show only polygons with the selected property
-			    var filter = ['==', 'pc11_district_id', selectedProperty];
-			    return filter;
-			    }
+		function filterPolygons(property) {			
+			if (!property) {
+			// Show all polygons if no property is selected
+			return ['!=', 'pc11_district_id', ''];
+			} 
+			else {
+			// Show only polygons with the selected property
+			var filter = ['==', 'pc11_district_id', property];
+			return filter;
+			}
 		}
 
 		// Update the filter function with the selected property
