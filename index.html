@@ -111,6 +111,9 @@
 		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
 		
+		// Show all districts by default
+		map.setFilter('rj-districts-cvu7zr', filterPolygons());
+		
 		// Listen for changes to the dropdown element
 		document.getElementById('polygons').addEventListener('change', function() {
 			// Get the selected value from the dropdown
@@ -145,8 +148,7 @@
 
 		// Update the filter function with the selected property
 		map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
-		});
-
+		
 	</script>
 </body>
 </html>
