@@ -19,3 +19,20 @@ submitBtn.addEventListener('click', () => {
     alert(`Login successful for user with email: ${email}`);
   }
 });
+
+		// show district labels
+		map.on('load', function() {
+		  map.addLayer({
+		    id: 'district-labels',
+		    type: 'symbol',
+		    source: 'rj_districts-cvu7zr',
+		    layout: {
+		      'text-field': ['get', 'district_name'], // replace 'name' with the name of the field containing the labels
+		      'text-size': 12,
+		      'text-anchor': 'center'
+		    },
+		    paint: {
+		      'text-color': '#FFFF00'
+		    }
+		  });
+		});
