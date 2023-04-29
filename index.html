@@ -120,7 +120,7 @@
 		
 		// Define the district filter function
 		function filterPolygons(property) {			
-		  if (!property) {
+		  if (property === '') {
 		    // Show all polygons if no property is selected
 		    return ['!=', 'pc11_district_id', ''];
 		  } else {
@@ -133,7 +133,7 @@
 		// Update the filter function with the selected property
 		map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
 		// Show all districts by default
-		map.setFilter('rj-districts-cvu7zr', filterPolygons());
+		// map.setFilter('rj-districts-cvu7zr', filterPolygons());
 		
 		// Get the selected polygon
 		var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty) });
