@@ -36,3 +36,18 @@ submitBtn.addEventListener('click', () => {
 		    }
 		  });
 		});
+
+		
+		// highlight districts in blue
+		map.addLayer({
+		  id: 'polygons-highlighted',
+		  type: 'fill',
+		  source: 'rj-districts-cvu7zr',
+		  paint: {
+		    'fill-color': '#ADD8E6',
+		    'fill-opacity': 0.7
+		  },
+		  filter: ['==', 'pc11_district_id', '']
+		});
+
+
