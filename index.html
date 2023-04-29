@@ -105,8 +105,6 @@
 		    map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibleLayers.indexOf('traced-units-0cngfu') !== -1 ? 'visible' : 'none');
 		}
 		
-		// Apply initial filter to show all polygons
-		map.setFilter('rj-districts-cvu7zr', filterPolygons(''));
 
 		// Attach the updateMap function to the checkboxes
 		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
