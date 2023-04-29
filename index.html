@@ -88,6 +88,19 @@
 		    }
 		  });
 		});
+		
+		// highlight districts in blue
+		map.addLayer({
+		  id: 'polygons-highlighted',
+		  type: 'fill',
+		  source: 'rj-districts-cvu7zr',
+		  paint: {
+		    'fill-color': '#ADD8E6',
+		    'fill-opacity': 0.7
+		  },
+		  filter: ['==', 'pc11_district_id', '']
+		});
+
 
 		// listen for changes to the toggle inputs
 		var layer1Toggle = document.getElementById('rj-districts-cvu7zr');
@@ -149,6 +162,8 @@
 		      center: center,
 		      zoom: 12
 		    });
+		    // highlight slected district
+		    map.setFilter('polygons-highlighted', filter);
 
 		    return filter;
 		  }
