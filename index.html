@@ -72,20 +72,6 @@
 			zoom: 4 // replace with your desired zoom level
 		});
 		
-		
-		// highlight districts in blue
-		map.addLayer({
-		  id: 'polygons-highlighted',
-		  type: 'fill',
-		  source: 'rj-districts-cvu7zr',
-		  paint: {
-		    'fill-color': '#ADD8E6',
-		    'fill-opacity': 0.7
-		  },
-		  filter: ['==', 'pc11_district_id', '']
-		});
-
-
 		// listen for changes to the toggle inputs
 		var layer1Toggle = document.getElementById('rj-districts-cvu7zr');
 		layer1Toggle.addEventListener('change', function() {
