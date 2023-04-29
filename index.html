@@ -104,6 +104,9 @@
 		    map.setLayoutProperty('declared-units-a9dcnd', 'visibility', visibleLayers.indexOf('declared-units-a9dcnd') !== -1 ? 'visible' : 'none');
 		    map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibleLayers.indexOf('traced-units-0cngfu') !== -1 ? 'visible' : 'none');
 		}
+		
+		// Apply initial filter to show all polygons
+		map.setFilter('rj-districts-cvu7zr', filterPolygons(''));
 
 		// Attach the updateMap function to the checkboxes
 		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
@@ -138,15 +141,9 @@
 		      center: center,
 		      zoom: 12
 		    });
-		    // highlight slected district
-		    map.setFilter('polygons-highlighted', filter);
-
 		    return filter;
 		  }
 		}
-
-		// Apply initial filter to show all polygons
-		map.setFilter('rj-districts-cvu7zr', filterPolygons(''));
 
 		// Update the filter function with the selected property
 		map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
