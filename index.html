@@ -90,7 +90,8 @@
 			var visibility = this.checked ? 'visible' : 'none';
 			map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibility);
 		});
-	// Add a function to update the map view when layer visibility changes
+		
+		// Add a function to update the map view when layer visibility changes
 		function updateMap() {
 		    var layers = ['rj-districts-cvu7zr', 'declared-units-a9dcnd', 'traced-units-0cngfu'];
 		    var visibleLayers = [];
@@ -108,6 +109,11 @@
 		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
 		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
+		
+		// Listen for changes to the dropdown element
+		document.getElementById('polygons').addEventListener('change', function() {
+		  // Get the selected value from the dropdown
+		  var selectedProperty = this.value;
 		
 		// Define the district dropdown function
 		function filterPolygons(property) {
@@ -142,13 +148,8 @@
 		// Apply initial filter to show all polygons
 		map.setFilter('rj-districts-cvu7zr', filterPolygons(''));
 
-		// Listen for changes to the dropdown element
-		document.getElementById('polygons').addEventListener('change', function() {
-		  // Get the selected value from the dropdown
-		  var selectedProperty = this.value;
-
-		  // Update the filter function with the selected property
-		  map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
+		// Update the filter function with the selected property
+		map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
 		});
 
 	</script>
