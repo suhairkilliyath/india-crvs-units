@@ -72,22 +72,6 @@
 			zoom: 4 // replace with your desired zoom level
 		});
 		
-		// show district labels
-		map.on('load', function() {
-		  map.addLayer({
-		    id: 'district-labels',
-		    type: 'symbol',
-		    source: 'rj_districts-cvu7zr',
-		    layout: {
-		      'text-field': ['get', 'district_name'], // replace 'name' with the name of the field containing the labels
-		      'text-size': 12,
-		      'text-anchor': 'center'
-		    },
-		    paint: {
-		      'text-color': '#FFFF00'
-		    }
-		  });
-		});
 		
 		// highlight districts in blue
 		map.addLayer({
