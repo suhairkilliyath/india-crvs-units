@@ -72,44 +72,6 @@
 			zoom: 4 // replace with your desired zoom level
 		});
 		
-		// listen for changes to the toggle inputs
-		var layer1Toggle = document.getElementById('rj-districts-cvu7zr');
-		layer1Toggle.addEventListener('change', function() {
-			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('rj-districts-cvu7zr', 'visibility', visibility);
-		});
-
-		var layer2Toggle = document.getElementById('declared-units-a9dcnd');
-		layer2Toggle.addEventListener('change', function() {
-			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('declared-units-a9dcnd', 'visibility', visibility);
-		});
-
-		var layer3Toggle = document.getElementById('traced-units-0cngfu');
-		layer3Toggle.addEventListener('change', function() {
-			var visibility = this.checked ? 'visible' : 'none';
-			map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibility);
-		});
-		
-		// Add a function to update the map view when layer visibility changes
-		function updateMap() {
-		    var layers = ['rj-districts-cvu7zr', 'declared-units-a9dcnd', 'traced-units-0cngfu'];
-		    var visibleLayers = [];
-		    for (var i = 0; i < layers.length; i++) {
-			if (document.getElementById(layers[i]).checked) {
-			    visibleLayers.push(layers[i]);
-			}
-		    }
-		    map.setLayoutProperty('rj-districts-cvu7zr', 'visibility', visibleLayers.indexOf('rj-districts-cvu7zr') !== -1 ? 'visible' : 'none');
-		    map.setLayoutProperty('declared-units-a9dcnd', 'visibility', visibleLayers.indexOf('declared-units-a9dcnd') !== -1 ? 'visible' : 'none');
-		    map.setLayoutProperty('traced-units-0cngfu', 'visibility', visibleLayers.indexOf('traced-units-0cngfu') !== -1 ? 'visible' : 'none');
-		}
-		
-
-		// Attach the updateMap function to the checkboxes
-		document.getElementById('rj-districts-cvu7zr').addEventListener('change', updateMap);
-		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
-		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
 		
 		
 		// Define the district filter function
