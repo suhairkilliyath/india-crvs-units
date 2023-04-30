@@ -129,6 +129,13 @@
 		dropdownChoice.addEventListener('change', function() {
 			// Get the selected value from the dropdown
 			var selectedProperty = this.value;
+			// Update the filter function with the selected property
+			map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
+			map.setFilter('declared-units-a9dcnd', filterPolygons(selectedProperty));
+			map.setFilter('traced-units-0cngfu', filterPolygons(selectedProperty));
+			// Show all districts by default
+			// map.setFilter('rj-districts-cvu7zr', filterPolygons());
+			
 			// Get the selected polygon
 			var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
 			var selectedPolygon = features[0];
@@ -138,12 +145,6 @@
 			}, new mapboxgl.LngLatBounds(selectedPolygon.geometry.coordinates[0], selectedPolygon.geometry.coordinates[0]));
 			// Fit the map view to the bounds of the selected polygon
 			map.fitBounds(bounds, { padding: 20 });
-			// Update the filter function with the selected property
-			map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
-			map.setFilter('declared-units-a9dcnd', filterPolygons(selectedProperty));
-			map.setFilter('traced-units-0cngfu', filterPolygons(selectedProperty));
-			// Show all districts by default
-			// map.setFilter('rj-districts-cvu7zr', filterPolygons());
 		});		
 	</script>
 </body>
