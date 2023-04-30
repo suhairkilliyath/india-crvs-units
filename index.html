@@ -111,6 +111,18 @@
 		document.getElementById('declared-units-a9dcnd').addEventListener('change', updateMap);
 		document.getElementById('traced-units-0cngfu').addEventListener('change', updateMap);
 		
+		
+		// Define the district filter function
+		function filterPolygons(property) {			
+		  if (property === '') {
+		    // Show all polygons if no property is selected
+		    return ['!=', 'pc11_district_id', ''];
+		  } else {
+		    // Show only polygons with the selected property
+		    var filter = ['==', 'pc11_district_id', property];
+		    return filter;
+		  }
+		}
 		// Listen for changes to the dropdown element
 		var dropdownChoice = document.getElementById('polygons');
 		dropdownChoice.addEventListener('change', function() {
@@ -127,20 +139,7 @@
 			map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
 			// Show all districts by default
 			// map.setFilter('rj-districts-cvu7zr', filterPolygons());
-		});
-		
-		// Define the district filter function
-		function filterPolygons(property) {			
-		  if (property === '') {
-		    // Show all polygons if no property is selected
-		    return ['!=', 'pc11_district_id', ''];
-		  } else {
-		    // Show only polygons with the selected property
-		    var filter = ['==', 'pc11_district_id', property];
-		    return filter;
-		  }
-		}		
-		
+		});		
 	</script>
 </body>
 </html>
