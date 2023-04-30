@@ -133,9 +133,11 @@
 			var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
 			var selectedPolygon = features[0];
 			// Get the center of the selected polygon
-			var center = turf.centerOfMass(selectedPolygon.geometry).geometry.coordinates;
-			// Fly to the center of the selected polygon
-			map.flyTo({ center: center, zoom: 12 });
+			var bounds = selectedPolygon.geometry.coordinates.reduce(function (bounds, coord) {
+			    return bounds.extend(coord);
+			}, new mapboxgl.LngLatBounds(selectedPolygon.geometry.coordinates[0], selectedPolygon.geometry.coordinates[0]));
+			// Fit the map view to the bounds of the selected polygon
+			map.fitBounds(bounds, { padding: 20 });
 			// Update the filter function with the selected property
 			map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
 			map.setFilter('declared-units-a9dcnd', filterPolygons(selectedProperty));
