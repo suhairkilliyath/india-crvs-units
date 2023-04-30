@@ -20,22 +20,7 @@ submitBtn.addEventListener('click', () => {
   }
 });
 
-		// show district labels
-		map.on('load', function() {
-		  map.addLayer({
-		    id: 'district-labels',
-		    type: 'symbol',
-		    source: 'rj_districts-cvu7zr',
-		    layout: {
-		      'text-field': ['get', 'district_name'], // replace 'name' with the name of the field containing the labels
-		      'text-size': 12,
-		      'text-anchor': 'center'
-		    },
-		    paint: {
-		      'text-color': '#FFFF00'
-		    }
-		  });
-		});
+
 
 		
 		// highlight districts in blue
@@ -50,4 +35,10 @@ submitBtn.addEventListener('click', () => {
 		  filter: ['==', 'pc11_district_id', '']
 		});
 
+		// Get the center of the selected polygon
+		var bounds = selectedPolygon.geometry.coordinates.reduce(function(bounds, coord) {
+		    return bounds.extend(coord);
+		}, new mapboxgl.LngLatBounds(selectedPolygon.geometry.coordinates[0], selectedPolygon.geometry.coordinates[0]));
+		// Fit the map view to the bounds of the selected polygon
+		map.fitBounds(bounds, { padding: 20 });
 
