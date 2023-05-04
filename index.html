@@ -134,8 +134,9 @@
 			map.setFilter('traced-units-0cngfu', filterPolygons(selectedProperty));
 			map.setFilter('declared-units-a9dcnd', filterPolygons(selectedProperty));
 		});	
-		document.getElementById('polygons').addEventListener('change', () {
+		dropdownChoice.addEventListener('change', function() {
 			// Fly to a random location
+			var selectedProperty = this.value;
 			var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
 			map.flyTo({
 				center: features[0].geometry.coordinates,
