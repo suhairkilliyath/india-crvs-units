@@ -142,16 +142,9 @@
 			var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
 			var selectedPolygon = features[0];
 			// Add a new layer for the selected polygon with fill color
-		        map.addLayer({
-			'id': 'selected-polygon',
-			'type': 'fill',
-			'source': 'rj-districts-cvu7zr',
-			'paint': {
-			    'fill-color': 'lightblue',
-			    'fill-opacity': 0.5
-			},
-			'filter': ['==', 'id', selectedPolygon.properties.id]
-		        });
+			map.flyTo({
+			center: selectedPolygon.geometry.coordinates
+			});
 		});
 		
 	</script>
