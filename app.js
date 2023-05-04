@@ -23,17 +23,18 @@ submitBtn.addEventListener('click', () => {
 
 
 		
-		// highlight districts in blue
-		map.addLayer({
-		  id: 'polygons-highlighted',
-		  type: 'fill',
-		  source: 'rj-districts-cvu7zr',
-		  paint: {
-		    'fill-color': '#ADD8E6',
-		    'fill-opacity': 0.7
-		  },
-		  filter: ['==', 'pc11_district_id', '']
-		});
+// highlight districts in blue
+// Add a new layer for the selected polygon with fill color
+map.addLayer({
+'id': 'selected-polygon',
+'type': 'fill',
+'source': 'rj-districts-cvu7zr',
+'paint': {
+    'fill-color': 'lightblue',
+    'fill-opacity': 0.5
+},
+'filter': ['==', 'id', selectedPolygon.properties.id]
+});
 
 		// Get the center of the selected polygon
 		var bounds = selectedPolygon.geometry.coordinates.reduce(function(bounds, coord) {
