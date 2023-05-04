@@ -1,64 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf-8' />
-	<title>Registration Units</title>
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
-	<script src="https://cdn.jsdelivr.net/npm/@turf/turf"></script>
-	<link rel="stylesheet" href="style.css"> 
-</head>
-<body>
-	<div id='map'></div>
-	<div class='toggle'>
-		<input id='rj-districts-toggle' type='checkbox' checked>
-		<label for='rj-districts-toggle'>Districts</label>
-		<input id='declared-units-toggle' type='checkbox' checked>
-		<label for='declared-units-toggle'>CRVS Units</label>
-		<input id='traced-units-toggle' type='checkbox' checked>
-		<label for='traced-units-toggle'>GMaps Units</label>
-	</div>
-	<div class='dropdown'>
-		<label for='polygons'>Select District:</label>
-		<select id='polygons'>
-			<option value=''>All</option>
-			<option value='099'>Ganganagar</option>
-			<option value='100'>Hanumangarh</option>
-			<option value='101'>Bikaner</option>
-			<option value='102'>Churu</option>
-			<option value='103'>Jhunjhunun</option>
-			<option value='104'>Alwar</option>
-			<option value='105'>Bharatpur</option>
-			<option value='106'>Dhaulpur</option>
-			<option value='107'>Karauli</option>
-			<option value='108'>Sawai Madhopur</option>
-			<option value='109'>Dausa</option>
-			<option value='110'>Jaipur</option>
-			<option value='111'>Sikar</option>
-			<option value='112'>Nagaur</option>
-			<option value='113'>Jodhpur</option>
-			<option value='114'>Jaisalmer</option>
-			<option value='115'>Barmer</option>
-			<option value='116'>Jalor</option>
-			<option value='117'>Sirohi</option>
-			<option value='118'>Pali</option>
-			<option value='119'>Ajmer</option>
-			<option value='120'>Tonk</option>
-			<option value='121'>Bundi</option>
-			<option value='122'>Bhilwara</option>
-			<option value='123'>Rajsamand</option>
-			<option value='124'>Dungarpur</option>
-			<option value='125'>Banswara</option>
-			<option value='126'>Chittaurgarh</option>
-			<option value='127'>Kota</option>
-			<option value='128'>Baran</option>
-			<option value='129'>Jhalawar</option>
-			<option value='130'>Udaipur</option>
-			<option value='131'>Pratapgarh</option>
-		</select>
-	</div>
 
-	<script> src="map-gl.js"></script>
-</body>
+  <head>
+    <meta charset='utf-8' />
+    <title>Registration Units</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <div id='map'></div>
+    <div class='toggle'>
+      <input id='rj-districts-toggle' type='checkbox' checked>
+      <label for='rj-districts-toggle'>Districts</label>
+      <input id='declared-units-toggle' type='checkbox' checked>
+      <label for='declared-units-toggle'>CRVS Units</label>
+      <input id='traced-units-toggle' type='checkbox' checked>
+      <label for='traced-units-toggle'>GMaps Units</label>
+    </div>
+    <div class='dropdown'>
+      <label for='polygons'>Select District:</label>
+      <select id='polygons'>
+        <option value=''>All</option>
+        <option value='099'>Ganganagar</option>
+        <option value='100'>Hanumangarh</option>
+        <option value='101'>Bikaner</option>
+        <option value='102'>Churu</option>
+        <option value='103'>Jhunjhunun</option>
+        <option value='104'>Alwar</option>
+        <option value='105'>Bharatpur</option>
+        <option value='106'>Dhaulpur</option>
+        <option value='107'>Karauli</option>
+        <option value='108'>Sawai Madhopur</option>
+        <option value='109'>Dausa</option>
+        <option value='110'>Jaipur</option>
+        <option value='111'>Sikar</option>
+        <option value='112'>Nagaur</option>
+        <option value='113'>Jodhpur</option>
+        <option value='114'>Jaisalmer</option>
+        <option value='115'>Barmer</option>
+        <option value='116'>Jalor</option>
+        <option value='117'>Sirohi</option>
+        <option value='118'>Pali</option>
+        <option value='119'>Ajmer</option>
+        <option value='120'>Tonk</option>
+        <option value='121'>Bundi</option>
+        <option value='122'>Bhilwara</option>
+        <option value='123'>Rajsamand</option>
+        <option value='124'>Dungarpur</option>
+        <option value='125'>Banswara</option>
+        <option value='126'>Chittaurgarh</option>
+        <option value='127'>Kota</option>
+        <option value='128'>Baran</option>
+        <option value='129'>Jhalawar</option>
+        <option value='130'>Udaipur</option>
+        <option value='131'>Pratapgarh</option>
+      </select>
+    </div>
+
+    <script>
+      src = "map-gl.js" >
+
+    </script>
+  </body>
+
 </html>
