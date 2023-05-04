@@ -133,20 +133,13 @@
 			map.setFilter('rj-districts-cvu7zr', filterPolygons(selectedProperty));
 			map.setFilter('traced-units-0cngfu', filterPolygons(selectedProperty));
 			map.setFilter('declared-units-a9dcnd', filterPolygons(selectedProperty));
-		});
-		
-		// zoom to the selected polygon
-		dropdownChoice.addEventListener('change', function() => {
-			// Get the selected value from the dropdown
-			var selectedProperty = this.value;
 			var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
 			var selectedPolygon = features[0];
 			// Add a new layer for the selected polygon with fill color
 			map.flyTo({
 			center: selectedPolygon.geometry.coordinates
 			});
-		});
-		
+		});		
 	</script>
 </body>
 </html>
