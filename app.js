@@ -25,6 +25,12 @@ submitBtn.addEventListener('click', () => {
 		
 // highlight districts in blue
 // Add a new layer for the selected polygon with fill color
+var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
+var selectedPolygon = features[0];
+// Add a new layer for the selected polygon with fill color
+map.flyTo({
+center: selectedPolygon.geometry.coordinates
+});
 map.addLayer({
 'id': 'selected-polygon',
 'type': 'fill',
