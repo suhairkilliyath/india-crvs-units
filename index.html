@@ -136,7 +136,7 @@
 		});
 		
 		// zoom to the selected polygon
-		dropdownChoice.addEventListener('change', function() {
+		dropdownChoice.addEventListener('change', function() => {
 			// Get the selected value from the dropdown
 			var selectedProperty = this.value;
 			var features = map.querySourceFeatures('rj-districts-cvu7zr', { filter: filterPolygons(selectedProperty)});
