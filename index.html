@@ -137,7 +137,8 @@
 			var selectedPolygon = features[0];
 			// Add a new layer for the selected polygon with fill color
 			map.flyTo({
-			center: selectedPolygon.geometry.coordinates
+				center: selectedPolygon.geometry.coordinates,
+				zoom: 12
 			});
 		});		
 	</script>
