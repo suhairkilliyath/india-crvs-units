@@ -7,7 +7,7 @@ const map = new mapboxgl.Map({
   maxZoom: 12,
   minZoom: 1,
   zoom: 4
-});
+  });
 
 // Declared Units
 
@@ -17,7 +17,7 @@ let decalred_units = [];
 // Create a popup, but don't add it to the map yet.
 const popup = new mapboxgl.Popup({
   closeButton: false
-});
+  });
 
 const filterEl = document.getElementById('feature-filter');
 const listingEl = document.getElementById('feature-listing');
@@ -56,7 +56,7 @@ function renderListings(features) {
     // remove features filter
     map.setFilter('declared_unit', ['has', 'unit_name']);
   }
-}
+  }
 
 function getUniqueFeatures(features, comparatorProperty) {
   const uniqueIds = new Set();
@@ -69,7 +69,7 @@ function getUniqueFeatures(features, comparatorProperty) {
     }
   }
   return uniqueFeatures;
-}
+  }
 
 map.on('load', () => {
   map.addSource('decalred_units', {
@@ -172,7 +172,7 @@ let traced_units = [];
 // Create a popup, but don't add it to the map yet.
 const traced_popup = new mapboxgl.Popup({
   closeButton: false
-});
+  });
 
 const traced_filterEl = document.getElementById('feature-traced-filter');
 const traced_listingEl = document.getElementById('feature-traced-listing');
@@ -211,7 +211,7 @@ function renderListings_traced(features) {
     // remove features filter
     map.setFilter('traced_unit', ['has', 'formatted_address']);
   }
-}
+  }
 
 function getUniqueTracedFeatures(features, comparatorProperty) {
   const uniqueIds = new Set();
@@ -224,7 +224,7 @@ function getUniqueTracedFeatures(features, comparatorProperty) {
     }
   }
   return UniqueTracedFeatures;
-}
+  }
 
 map.on('load', () => {
   map.addSource('traced_units', {
@@ -316,4 +316,4 @@ map.on('load', () => {
   // Call this function on initialization
   // passing an empty array to render an empty state
   renderListings_traced([]);
-});
+  });
