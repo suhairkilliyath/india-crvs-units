@@ -1,25 +1,139 @@
-    body {
-      margin: 0;
-      padding: 0;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+  }
 
-    #map {
+  #map {
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 0;
+    bottom: 0;
+    width: 60%;
+  }
+
+  .toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .map-overlay {
       position: absolute;
-      top: 0;
+      width: 20%;
+      top: 20;
       bottom: 0;
+      left: 0;
+      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      background-color: #efefef;
+      max-height: 90%;
+      overflow: hidden;
+  }
+
+  .map-overlay fieldset {
+      display: none;
+      background: #ddd;
+      border: none;
+      padding: 10px;
+      margin: 0;
+  }
+
+  .map-overlay input {
+      display: block;
+      border: none;
       width: 100%;
-    }
+      border-radius: 3px;
+      padding: 10px;
+      margin: 0;
+      box-sizing: border-box;
+  }
 
-    .toggle {
+  .map-overlay .listing {
+      overflow: auto;
+      max-height: 100%;
+  }
+
+  .map-overlay .listing > * {
+      display: block;
+      padding: 5px 10px;
+      margin: 0;
+  }
+
+  .map-overlay .listing a {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      color: #404;
+      text-decoration: none;
+  }
+
+  .map-overlay .listing a:last-child {
+      border: none;
+  }
+
+  .map-overlay .listing a:hover {
+      background: #f0f0f0;
+  }
+
+
+/* traced */
+
+ .map-traced-overlay {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 1;
-    }
+      width: 20%;
+      top: 20;
+      bottom: 0;
+      right: 0;
+      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      background-color: #efefef;
+      max-height: 90%;
+      overflow: hidden;
+  }
 
-    .dropdown {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
+  .map-traced-overlay fieldset {
+      display: none;
+      background: #ddd;
+      border: none;
+      padding: 10px;
+      margin: 0;
+  }
 
+  .map-traced-overlay input {
+      display: block;
+      border: none;
+      width: 100%;
+      border-radius: 3px;
+      padding: 10px;
+      margin: 0;
+      box-sizing: border-box;
+  }
+
+  .map-traced-overlay .listing {
+      overflow: auto;
+      max-height: 100%;
+  }
+
+  .map-traced-overlay .listing > * {
+      display: block;
+      padding: 5px 10px;
+      margin: 0;
+  }
+
+  .map-traced-overlay .listing a {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      color: #404;
+      text-decoration: none;
+  }
+
+  .map-traced-overlay .listing a:last-child {
+      border: none;
+  }
+
+  .map-traced-overlay .listing a:hover {
+      background: #f0f0f0;
+  }
