@@ -71,7 +71,7 @@ function getUniqueFeatures(features, comparatorProperty) {
   return uniqueFeatures;
 }
 
-map.on('load', () => {
+map.on('load', () {
   map.addSource('decalred_units', {
     'type': 'vector',
     'url': 'mapbox://suhairkk.2mkggpex'
@@ -88,12 +88,12 @@ map.on('load', () => {
       'circle-stroke-color': '#ffffff'
     }
   });
-  map.on('movestart', () => {
+  map.on('movestart', () {
     // reset features filter as the map starts moving
     map.setFilter('declared_unit', ['has', 'unit_name']);
   });
 
-  map.on('moveend', () => {
+  map.on('moveend', () {
     const features = map.queryRenderedFeatures({
       layers: ['declared_unit']
     });
@@ -111,7 +111,7 @@ map.on('load', () => {
       decalred_units = uniqueFeatures;
     }
   });
-  map.on('mousemove', 'declared_unit', (e) => {
+  map.on('mousemove', 'declared_unit', (e) {
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
 
@@ -125,11 +125,11 @@ map.on('load', () => {
       .addTo(map);
   });
 
-  map.on('mouseleave', 'declared_unit', () => {
+  map.on('mouseleave', 'declared_unit', () {
     map.getCanvas().style.cursor = '';
     popup.remove();
   });
-  filterEl.addEventListener('keyup', (e) => {
+  filterEl.addEventListener('keyup', (e) {
     const value = normalize(e.target.value);
 
     // Filter visible features that match the input value.
@@ -226,7 +226,7 @@ function getUniqueTracedFeatures(features, comparatorProperty) {
   return UniqueTracedFeatures;
 }
 
-map.on('load', () => {
+map.on('load', () {
   map.addSource('traced_units', {
     'type': 'vector',
     'url': 'mapbox://suhairkk.70qh1v1w'
@@ -243,12 +243,12 @@ map.on('load', () => {
       'circle-stroke-color': '#ffffff'
     }
   });
-  map.on('movestart', () => {
+  map.on('movestart', () {
     // reset features filter as the map starts moving
     map.setFilter('traced_unit', ['has', 'formatted_address']);
   });
 
-  map.on('moveend', () => {
+  map.on('moveend', () {
     const features = map.queryRenderedFeatures({
       layers: ['traced_unit']
     });
@@ -266,7 +266,7 @@ map.on('load', () => {
       traced_units = UniqueTracedFeatures;
     }
   });
-  map.on('mousemove', 'traced_unit', (e) => {
+  map.on('mousemove', 'traced_unit', (e) {
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
 
@@ -280,11 +280,11 @@ map.on('load', () => {
       .addTo(map);
   });
 
-  map.on('mouseleave', 'traced_unit', () => {
+  map.on('mouseleave', 'traced_unit', () {
     map.getCanvas().style.cursor = '';
     traced_popup.remove();
   });
-  traced_listingEl.addEventListener('keyup', (e) => {
+  traced_listingEl.addEventListener('keyup', (e) {
     const value = normalize(e.target.value);
 
     // Filter visible features that match the input value.
@@ -304,7 +304,7 @@ map.on('load', () => {
       map.setFilter('traced_unit', [
 	'match',
 	['get', 'formatted_address'],
-	filtered.map((feature) => {
+	filtered.map((feature) {
 	  return feature.properties.formatted_address;
 	}),
 	true,
