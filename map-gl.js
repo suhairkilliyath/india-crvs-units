@@ -7,8 +7,54 @@ const map = new mapboxgl.Map({
   maxZoom: 12,
   minZoom: 1,
   zoom: 4
-  });
+});
 
+// District layer
+
+
+map.on('load', () => {
+  map.addSource('rj_districts', {
+    'type': 'vector',
+    'url': 'mapbox://suhairkk.d27vf7wz'
+  });
+  map.addLayer({
+    'id': 'rj_district',
+    'type': 'line',
+    'source': 'rj_districts',
+    'source-layer': 'rj_districts-cvu7zr',
+    'layout': {},
+    'paint': {
+      'line-color': '#000000',
+      'line-width': 0.5
+    }
+  });
+});
+
+
+// District filter
+
+// Define the district filter function
+function filterPolygons(property) {
+  if (property === '') {
+    // Show all polygons if no property is selected
+    return ['!=', 'pc11_district_id', ''];
+  } else {
+    // Show only polygons with the selected property
+    var filter = ['==', 'pc11_district_id', property];
+    return filter;
+
+  }
+}
+// Listen for changes to the dropdown element
+var dropdownChoice = document.getElementById('polygons');
+dropdownChoice.addEventListener('change', function() {
+  // Get the selected value from the dropdown
+  var selectedProperty = this.value;
+  // Update the filter function with the selected property
+  map.setFilter('rj_district', filterPolygons(selectedProperty));
+  map.setFilter('traced_unit', filterPolygons(selectedProperty));
+  map.setFilter('declared_unit', filterPolygons(selectedProperty));
+});
 // Declared Units
 
 // Holds visible airport features for filtering
@@ -17,7 +63,7 @@ let decalred_units = [];
 // Create a popup, but don't add it to the map yet.
 const popup = new mapboxgl.Popup({
   closeButton: false
-  });
+});
 
 const filterEl = document.getElementById('feature-filter');
 const listingEl = document.getElementById('feature-listing');
@@ -56,7 +102,7 @@ function renderListings(features) {
     // remove features filter
     map.setFilter('declared_unit', ['has', 'unit_name']);
   }
-  }
+}
 
 function getUniqueFeatures(features, comparatorProperty) {
   const uniqueIds = new Set();
@@ -69,7 +115,7 @@ function getUniqueFeatures(features, comparatorProperty) {
     }
   }
   return uniqueFeatures;
-  }
+}
 
 map.on('load', () => {
   map.addSource('decalred_units', {
@@ -88,6 +134,20 @@ map.on('load', () => {
       'circle-stroke-color': '#ffffff'
     }
   });
+
+  map.on('movestart', () => {
+    // Get the selected option from the dropdown menu
+    const selectedOption = dropdown.value;
+
+    // Generate the desired filter based on the selected property
+    const desiredFilter = filterPolygons(selectedOption);
+
+    // Reset features filter as the map starts moving only if the desired filter is defined
+    if (desiredFilter) {
+      map.setFilter('declared_unit', desiredFilter);
+    }
+  });
+
   map.on('movestart', () => {
     // reset features filter as the map starts moving
     map.setFilter('declared_unit', ['has', 'unit_name']);
@@ -172,7 +232,7 @@ let traced_units = [];
 // Create a popup, but don't add it to the map yet.
 const traced_popup = new mapboxgl.Popup({
   closeButton: false
-  });
+});
 
 const traced_filterEl = document.getElementById('feature-traced-filter');
 const traced_listingEl = document.getElementById('feature-traced-listing');
@@ -211,7 +271,7 @@ function renderListings_traced(features) {
     // remove features filter
     map.setFilter('traced_unit', ['has', 'formatted_address']);
   }
-  }
+}
 
 function getUniqueTracedFeatures(features, comparatorProperty) {
   const uniqueIds = new Set();
@@ -224,7 +284,7 @@ function getUniqueTracedFeatures(features, comparatorProperty) {
     }
   }
   return UniqueTracedFeatures;
-  }
+}
 
 map.on('load', () => {
   map.addSource('traced_units', {
@@ -316,4 +376,46 @@ map.on('load', () => {
   // Call this function on initialization
   // passing an empty array to render an empty state
   renderListings_traced([]);
-  });
+});
+
+
+// Toggle layers
+
+// listen for changes to the toggle inputs
+var layer1Toggle = document.getElementById('rj-districts-toggle');
+layer1Toggle.addEventListener('change', function() {
+  var visibility = this.checked ? 'visible' : 'none';
+  map.setLayoutProperty('rj_district', 'visibility', visibility);
+});
+
+var layer2Toggle = document.getElementById('declared-units-toggle');
+layer2Toggle.addEventListener('change', function() {
+  var visibility = this.checked ? 'visible' : 'none';
+  map.setLayoutProperty('declared_unit', 'visibility', visibility);
+});
+
+var layer3Toggle = document.getElementById('traced-units-toggle');
+layer3Toggle.addEventListener('change', function() {
+  var visibility = this.checked ? 'visible' : 'none';
+  map.setLayoutProperty('traced_unit', 'visibility', visibility);
+});
+
+// Add a function to update the map view when layer visibility changes
+function updateMap() {
+  var layers = ['rj_district', 'declared_unit', 'traced_unit'];
+  var visibleLayers = [];
+  for (var i = 0; i < layers.length; i++) {
+    if (document.getElementById(layers[i]).checked) {
+      visibleLayers.push(layers[i]);
+    }
+  }
+  map.setLayoutProperty('rj_district', 'visibility', visibleLayers.indexOf('rj_district') !== -1 ? 'visible' : 'none');
+  map.setLayoutProperty('declared_unit', 'visibility', visibleLayers.indexOf('declared_unit') !== -1 ? 'visible' : 'none');
+  map.setLayoutProperty('traced_unit', 'visibility', visibleLayers.indexOf('traced_unit') !== -1 ? 'visible' : 'none');
+}
+
+// Attach the updateMap function to the checkboxes
+document.getElementById('rj-districts-toggle').addEventListener('change', updateMap);
+document.getElementById('declared-units-toggle').addEventListener('change', updateMap);
+document.getElementById('traced-units-toggle').addEventListener('change', updateMap);
+
