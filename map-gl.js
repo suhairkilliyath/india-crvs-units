@@ -54,7 +54,24 @@ dropdownChoice.addEventListener('change', function() {
   map.setFilter('rj_district', filterPolygons(selectedProperty));
   map.setFilter('traced_unit', filterPolygons(selectedProperty));
   map.setFilter('declared_unit', filterPolygons(selectedProperty));
+
+  // Fly to selected district center
+  var features = map.querySourceFeatures('rj_districts', {
+    sourceLayer: 'rj_districts-cvu7zr',
+    filter: ['==', 'pc11_district_id', selectedProperty]
+  });
+  var center = features[0].geometry.coordinates;
+  var zoom = 10; // Set the desired zoom level here
+  map.flyTo({
+    center: center,
+    zoom: zoom
+  });
+  
+  });
 });
+
+
+
 // Declared Units
 
 // Holds visible airport features for filtering
