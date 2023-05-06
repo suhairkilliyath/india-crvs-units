@@ -66,8 +66,6 @@ dropdownChoice.addEventListener('change', function() {
     center: center,
     zoom: zoom
   });
-  
-  });
 });
 
 
