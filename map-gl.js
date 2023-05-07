@@ -96,15 +96,6 @@ function traced_renderListings(features) {
   }
 }
 
-
-// HEADLINE NUMBERS
-var totalUnits = 12500;
-var declaredUnits = declared_units.length;
-
-// Update the HTML elements with the calculated values
-document.getElementById('total-units').textContent = totalUnits;
-document.getElementById('declared-units').textContent = declaredUnits;
-
 //  ALL MAP LAYERS
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2t3ZG5oN3hhMGxtazJucXZwc3U4ZmszbiJ9.FcdBbEoryTBwLU56AoI5qg';
 const map = new mapboxgl.Map({
@@ -383,4 +374,63 @@ layer3Toggle.addEventListener('change', function() {
 document.getElementById('rj-districts-toggle').addEventListener('change', updateMap);
 document.getElementById('declared-units-toggle').addEventListener('change', updateMap);
 document.getElementById('traced-units-toggle').addEventListener('change', updateMap);
+
+// HEADLINE NUMBERS
+
+dropdownChoice.addEventListener('change', function() {
+  var selectedProperty = this.value;
+  // Fly to selected district center
+  var declared_units_features = map.querySourceFeatures('declared_units', {
+    sourceLayer: 'declared_units-a9dcnd',
+    filter: ['==', 'pc11_district_id', selectedProperty]
+  });
+  var traced_units_features = map.querySourceFeatures('traced_units', {
+    sourceLayer: 'traced_units-0cngfu',
+    filter: ['==', 'pc11_district_id', selectedProperty]
+  });
+  var totalUnits = 12500;
+  var declaredUnits = declared_units_features.length;
+  var tracedUnits = traced_units_features.length;
+  // Update the HTML elements with the calculated values
+  document.getElementById('total-units').textContent = totalUnits;
+  document.getElementById('declared-units').textContent = declaredUnits;
+  document.getElementById('traced-units').textContent = tracedUnits;
+});
+
+// HEADLINE NUMBERS
+// Trigger the change event on page load to show default numbers
+dropdownChoice.dispatchEvent(new Event('change'));
+dropdownChoice.addEventListener('change', function() {
+  var selectedProperty = this.value;
+  var declared_units_features;
+  var traced_units_features;
+  if (selectedProperty === '') {
+    // Query source features for all circles in the declared_unit layer
+    declared_units_features = map.querySourceFeatures('declared_units_layer', {
+      sourceLayer: 'declared_units-a9dcnd'
+    });
+    // Query source features for all circles in the traced_unit layer
+    traced_units_features = map.querySourceFeatures('traced_units_layer', {
+      sourceLayer: 'traced_units-0cngfu'
+    });
+  } else {
+    // Query source features for the declared_unit layer based on the selected property
+    declared_units_features = map.querySourceFeatures('declared_units_layer', {
+      sourceLayer: 'declared_units-a9dcnd',
+      filter: ['==', 'pc11_district_id', selectedProperty]
+    });
+    // Query source features for the traced_unit layer based on the selected property
+    traced_units_features = map.querySourceFeatures('traced_units_layer', {
+      sourceLayer: 'traced_units-0cngfu',
+      filter: ['==', 'pc11_district_id', selectedProperty]
+    });
+  }
+  // Get the number of circles for each layer
+  var declaredUnitsCount = declared_units_features.length;
+  var tracedUnitsCount = traced_units_features.length;
+  // Update the HTML elements with the counts
+  document.getElementById('total-units').textContent = '12500';
+  document.getElementById('declared-units').textContent = declaredUnitsCount;
+  document.getElementById('traced-units').textContent = tracedUnitsCount;
+});
 
