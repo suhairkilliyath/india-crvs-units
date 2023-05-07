@@ -73,7 +73,7 @@ dropdownChoice.addEventListener('change', function() {
 // Declared Units
 
 // Holds visible airport features for filtering
-let decalred_units = [];
+let declared_units = [];
 
 // Create a popup, but don't add it to the map yet.
 const popup = new mapboxgl.Popup({
@@ -137,7 +137,7 @@ function getUniqueFeatures(features, comparatorProperty) {
 }
 
 map.on('load', () => {
-  map.addSource('decalred_units', {
+  map.addSource('declared_units', {
     'type': 'vector',
     'url': 'mapbox://suhairkk.2mkggpex'
   });
@@ -187,7 +187,7 @@ map.on('load', () => {
 
       // Store the current features in sn `airports` variable to
       // later use for filtering on `keyup`.
-      decalred_units = uniqueFeatures;
+      declared_units = uniqueFeatures;
     }
   });
   map.on('mousemove', 'declared_unit', (e) => {
@@ -213,7 +213,7 @@ map.on('load', () => {
 
     // Filter visible features that match the input value.
     const filtered = [];
-    for (const feature of decalred_units) {
+    for (const feature of declared_units) {
       const name = normalize(feature.properties.unit_name);
       if (name.includes(value)) {
         filtered.push(feature);
