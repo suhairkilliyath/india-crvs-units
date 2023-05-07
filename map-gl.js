@@ -1,3 +1,111 @@
+// SIDE BARS
+let declared_units = [];
+const popup_declared = new mapboxgl.Popup({
+  closeButton: false
+});
+const filterEl = document.getElementById('feature-filter');
+const listingEl = document.getElementById('feature-listing')
+
+let traced_units = [];
+const popup_traced = new mapboxgl.Popup({
+  closeButton: false
+});
+const filterEltraced = document.getElementById('feature-traced-filter');
+const listingEltraced = document.getElementById('feature-traced-listing');
+
+function renderListings(features) {
+  const empty = document.createElement('p');
+  // Clear any existing listings
+  listingEl.innerHTML = '';
+  if (features.length) {
+    for (const feature of features) {
+      const itemLink = document.createElement('a');
+      const label = `${feature.properties.unit_name} (${feature.properties.unit_type})`;
+      itemLink.textContent = label;
+      itemLink.addEventListener('mouseover', () => {
+        // Highlight corresponding feature on the map
+        popup_declared
+          .setLngLat(feature.geometry.coordinates)
+          .setText(label)
+          .addTo(map);
+      });
+      listingEl.appendChild(itemLink);
+    }
+    // Show the filter input
+    filterEl.parentNode.style.display = 'block';
+  } else if (features.length === 0 && filterEl.value !== '') {
+    empty.textContent = 'No results found';
+    listingEl.appendChild(empty);
+  } else {
+    empty.textContent = 'Drag the map to populate results';
+    listingEl.appendChild(empty);
+    // Hide the filter input
+    filterEl.parentNode.style.display = 'none';
+    // remove features filter
+    map.setFilter('declared_unit', ['has', 'unit_name']);
+  }
+}
+
+function normalize(string) {
+  return string.trim().toLowerCase();
+}
+
+function getUniqueFeatures(features, comparatorProperty) {
+  const uniqueIds = new Set();
+  const uniqueFeatures = [];
+  for (const feature of features) {
+    const id = feature.properties[comparatorProperty];
+    if (!uniqueIds.has(id)) {
+      uniqueIds.add(id);
+      uniqueFeatures.push(feature);
+    }
+  }
+  return uniqueFeatures;
+}
+
+function traced_renderListings(features) {
+  const traced_empty = document.createElement('q');
+  // Clear any existing listings
+  listingEltraced.innerHTML = '';
+  if (features.length) {
+    for (const feature of features) {
+      const itemLink = document.createElement('a');
+      const label = `${feature.properties.formatted_address} (${feature.properties.unit_type})`;
+      itemLink.textContent = label;
+      itemLink.addEventListener('mouseover', () => {
+        // Highlight corresponding feature on the map
+        popup_traced
+          .setLngLat(feature.geometry.coordinates)
+          .setText(label)
+          .addTo(map);
+      });
+      listingEltraced.appendChild(itemLink);
+    }
+    // Show the filter input
+    filterEltraced.parentNode.style.display = 'block';
+  } else if (features.length === 0 && filterEltraced.value !== '') {
+    traced_empty.textContent = 'No results found';
+    listingEltraced.appendChild(traced_empty);
+  } else {
+    traced_empty.textContent = 'Drag the map to populate results';
+    listingEltraced.appendChild(traced_empty);
+    // Hide the filter input
+    filterEltraced.parentNode.style.display = 'none';
+    // remove features filter
+    map.setFilter('declared_unit', ['has', 'formatted_address']);
+  }
+}
+
+
+// HEADLINE NUMBERS
+var totalUnits = 12500;
+var declaredUnits = declared_units.length;
+
+// Update the HTML elements with the calculated values
+document.getElementById('total-units').textContent = totalUnits;
+document.getElementById('declared-units').textContent = declaredUnits;
+
+//  ALL MAP LAYERS
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoYWlya2siLCJhIjoiY2t3ZG5oN3hhMGxtazJucXZwc3U4ZmszbiJ9.FcdBbEoryTBwLU56AoI5qg';
 const map = new mapboxgl.Map({
   container: 'map',
@@ -8,10 +116,7 @@ const map = new mapboxgl.Map({
   minZoom: 1,
   zoom: 4
 });
-
-// District layer
-
-
+// Add RJ Districts layer
 map.on('load', () => {
   map.addSource('rj_districts', {
     'type': 'vector',
@@ -28,126 +133,35 @@ map.on('load', () => {
       'line-width': 0.5
     }
   });
-});
-
-
-// District filter
-
-// Define the district filter function
-function filterPolygons(property) {
-  if (property === '') {
-    // Show all polygons if no property is selected
-    return ['!=', 'pc11_district_id', ''];
-  } else {
-    // Show only polygons with the selected property
-    var filter = ['==', 'pc11_district_id', property];
-    return filter;
-
-  }
-}
-// Listen for changes to the dropdown element
-var dropdownChoice = document.getElementById('polygons');
-dropdownChoice.addEventListener('change', function() {
-  // Get the selected value from the dropdown
-  var selectedProperty = this.value;
-  // Update the filter function with the selected property
-  map.setFilter('rj_district', filterPolygons(selectedProperty));
-  map.setFilter('traced_unit', filterPolygons(selectedProperty));
-  map.setFilter('declared_unit', filterPolygons(selectedProperty));
-
-  // Fly to selected district center
-  var features = map.querySourceFeatures('rj_districts', {
-    sourceLayer: 'rj_districts-cvu7zr',
-    filter: ['==', 'pc11_district_id', selectedProperty]
-  });
-  var center = features[0].geometry.coordinates;
-  var zoom = 10; // Set the desired zoom level here
-  map.flyTo({
-    center: center,
-    zoom: zoom
-  });
-});
-
-
-
-// Declared Units
-
-// Holds visible airport features for filtering
-let declared_units = [];
-
-// Create a popup, but don't add it to the map yet.
-const popup = new mapboxgl.Popup({
-  closeButton: false
-});
-
-const filterEl = document.getElementById('feature-filter');
-const listingEl = document.getElementById('feature-listing');
-
-function renderListings(features) {
-  const empty = document.createElement('p');
-  // Clear any existing listings
-  listingEl.innerHTML = '';
-  if (features.length) {
-    for (const feature of features) {
-      const itemLink = document.createElement('a');
-      const label = `${feature.properties.unit_name} (${feature.properties.unit_type})`;
-      itemLink.textContent = label;
-      itemLink.addEventListener('mouseover', () => {
-        // Highlight corresponding feature on the map
-        popup
-          .setLngLat(feature.geometry.coordinates)
-          .setText(label)
-          .addTo(map);
-      });
-      listingEl.appendChild(itemLink);
-    }
-
-    // Show the filter input
-    filterEl.parentNode.style.display = 'block';
-  } else if (features.length === 0 && filterEl.value !== '') {
-    empty.textContent = 'No results found';
-    listingEl.appendChild(empty);
-  } else {
-    empty.textContent = 'Drag the map to populate results';
-    listingEl.appendChild(empty);
-
-    // Hide the filter input
-    filterEl.parentNode.style.display = 'none';
-
-    // remove features filter
-    map.setFilter('declared_unit', ['has', 'unit_name']);
-  }
-}
-
-function normalize(string) {
-  return string.trim().toLowerCase();
-  }
-
-function getUniqueFeatures(features, comparatorProperty) {
-  const uniqueIds = new Set();
-  const uniqueFeatures = [];
-  for (const feature of features) {
-    const id = feature.properties[comparatorProperty];
-    if (!uniqueIds.has(id)) {
-      uniqueIds.add(id);
-      uniqueFeatures.push(feature);
-    }
-  }
-  return uniqueFeatures;
-}
-
-map.on('load', () => {
-  map.addSource('declared_units', {
+  // Add Declared Units layer
+  map.addSource('declared_units_layer', {
     'type': 'vector',
     'url': 'mapbox://suhairkk.2mkggpex'
   });
   map.addLayer({
     'id': 'declared_unit',
-    'source': 'declared_units',
+    'source': 'declared_units_layer',
     'source-layer': 'declared_units-a9dcnd',
     'type': 'circle',
     'paint': {
       'circle-color': '#4264fb',
+      'circle-radius': 4,
+      'circle-stroke-width': 2,
+      'circle-stroke-color': '#ffffff'
+    }
+  });
+  // Add Traced Units layer
+  map.addSource('traced_units_layer', {
+    'type': 'vector',
+    'url': 'mapbox://suhairkk.70qh1v1w'
+  });
+  map.addLayer({
+    'id': 'traced_unit',
+    'source': 'traced_units_layer',
+    'source-layer': 'traced_units-0cngfu',
+    'type': 'circle',
+    'paint': {
+      'circle-color': '#ffb6c1',
       'circle-radius': 4,
       'circle-stroke-width': 2,
       'circle-stroke-color': '#ffffff'
@@ -160,31 +174,21 @@ map.on('load', () => {
     const selectedOption = dropdown.value;
     // Generate the desired filter based on the selected property
     const desiredFilter = filterPolygons(selectedOption);
-
     // Reset features filter as the map starts moving only if the desired filter is defined
     if (desiredFilter) {
       map.setFilter('declared_unit', desiredFilter);
     }
   });
-
-  map.on('movestart', () => {
-    // reset features filter as the map starts moving
-    map.setFilter('declared_unit', ['has', 'unit_name']);
-  });
-
   map.on('moveend', () => {
     const features = map.queryRenderedFeatures({
       layers: ['declared_unit']
     });
-
     if (features) {
       const uniqueFeatures = getUniqueFeatures(features, 'unit_name');
       // Populate features for the listing overlay.
       renderListings(uniqueFeatures);
-
       // Clear the input container
       filterEl.value = '';
-
       // Store the current features in sn `airports` variable to
       // later use for filtering on `keyup`.
       declared_units = uniqueFeatures;
@@ -193,24 +197,21 @@ map.on('load', () => {
   map.on('mousemove', 'declared_unit', (e) => {
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
-
     // Populate the popup and set its coordinates based on the feature.
     const feature = e.features[0];
-    popup
+    popup_declared
       .setLngLat(feature.geometry.coordinates)
       .setText(
         `${feature.properties.unit_name}(${feature.properties.unit_type})`
       )
       .addTo(map);
   });
-
   map.on('mouseleave', 'declared_unit', () => {
     map.getCanvas().style.cursor = '';
-    popup.remove();
+    popup_declared.remove();
   });
   filterEl.addEventListener('keyup', (e) => {
     const value = normalize(e.target.value);
-
     // Filter visible features that match the input value.
     const filtered = [];
     for (const feature of declared_units) {
@@ -219,10 +220,8 @@ map.on('load', () => {
         filtered.push(feature);
       }
     }
-
     // Populate the sidebar with filtered results
     renderListings(filtered);
-
     // Set the filter to populate features into the layer.
     if (filtered.length) {
       map.setFilter('declared_unit', [
@@ -236,136 +235,51 @@ map.on('load', () => {
       ]);
     }
   });
-
-  // Call this function on initialization
-  // passing an empty array to render an empty state
-  renderListings([]);
-});
-
-
-// Traced Units
-
-// Holds visible airport features for filtering
-let traced_units = [];
-
-// Create a popup, but don't add it to the map yet.
-const traced_popup = new mapboxgl.Popup({
-  closeButton: false
-});
-
-const traced_filterEl = document.getElementById('feature-traced-filter');
-const traced_listingEl = document.getElementById('feature-traced-listing');
-
-function renderListings_traced(features) {
-  const empty = document.createElement('p');
-  // Clear any existing listings
-  traced_listingEl.innerHTML = '';
-  if (features.length) {
-    for (const feature of features) {
-      const itemLink = document.createElement('a');
-      const label = `${feature.properties.formatted_address} (${feature.properties.unit_type})`;
-      itemLink.textContent = label;
-      itemLink.addEventListener('mouseover', () => {
-        // Highlight corresponding feature on the map
-        traced_popup
-          .setLngLat(feature.geometry.coordinates)
-          .setText(label)
-          .addTo(map);
-      });
-      traced_listingEl.appendChild(itemLink);
-    }
-
-    // Show the filter input
-    traced_filterEl.parentNode.style.display = 'block';
-  } else if (features.length === 0 && traced_filterEl.value !== '') {
-    empty.textContent = 'No results found';
-    traced_listingEl.appendChild(empty);
-  } else {
-    empty.textContent = 'Drag the map to populate results';
-    traced_listingEl.appendChild(empty);
-
-    // Hide the filter input
-    traced_filterEl.parentNode.style.display = 'none';
-
-    // remove features filter
-    map.setFilter('traced_unit', ['has', 'formatted_address']);
-  }
-}
-
-function getUniqueTracedFeatures(features, comparatorProperty) {
-  const uniqueIds = new Set();
-  const UniqueTracedFeatures = [];
-  for (const feature of features) {
-    const id = feature.properties[comparatorProperty];
-    if (!uniqueIds.has(id)) {
-      uniqueIds.add(id);
-      UniqueTracedFeatures.push(feature);
-    }
-  }
-  return UniqueTracedFeatures;
-}
-
-map.on('load', () => {
-  map.addSource('traced_units', {
-    'type': 'vector',
-    'url': 'mapbox://suhairkk.70qh1v1w'
-  });
-  map.addLayer({
-    'id': 'traced_unit',
-    'source': 'traced_units',
-    'source-layer': 'traced_units-0cngfu',
-    'type': 'circle',
-    'paint': {
-      'circle-color': '#ffb6c1',
-      'circle-radius': 4,
-      'circle-stroke-width': 2,
-      'circle-stroke-color': '#ffffff'
-    }
-  });
+  //TRACED UNITS
   map.on('movestart', () => {
-    // reset features filter as the map starts moving
-    map.setFilter('traced_unit', ['has', 'formatted_address']);
+    // Get the selected option from the dropdown menu 
+    const dropdown = document.getElementById('polygons');
+    const selectedOption = dropdown.value;
+    // Generate the desired filter based on the selected property
+    const desiredFilter = filterPolygons(selectedOption);
+    // Reset features filter as the map starts moving only if the desired filter is defined
+    if (desiredFilter) {
+      map.setFilter('traced_unit', desiredFilter);
+    }
   });
-
   map.on('moveend', () => {
     const features = map.queryRenderedFeatures({
       layers: ['traced_unit']
     });
-
     if (features) {
-      const UniqueTracedFeatures = getUniqueTracedFeatures(features, 'formatted_address');
+      const UniqueTracedFeatures = getUniqueFeatures(features, 'formatted_address');
       // Populate features for the listing overlay.
-      renderListings_traced(UniqueTracedFeatures);
-
+      traced_renderListings(UniqueTracedFeatures);
       // Clear the input container
-      traced_filterEl.value = '';
-
+      filterEltraced.value = '';
       // Store the current features in sn `airports` variable to
       // later use for filtering on `keyup`.
       traced_units = UniqueTracedFeatures;
     }
   });
-  map.on('mousemove', 'traced_unit', (e) => {
+  map.on('mousemove', 'traced_unit', (f) => {
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
-
     // Populate the popup and set its coordinates based on the feature.
-    const feature = e.features[0];
-    traced_popup
+    const feature = f.features[0];
+    popup_traced
       .setLngLat(feature.geometry.coordinates)
       .setText(
         `${feature.properties.formatted_address}(${feature.properties.unit_type})`
       )
       .addTo(map);
   });
-
-  map.on('mouseleave', 'traced_unit', () => {
+  map.on('mouseleave', 'declared_unit', () => {
     map.getCanvas().style.cursor = '';
-    traced_popup.remove();
+    popup_traced.remove();
   });
-  traced_listingEl.addEventListener('keyup', (e) => {
-    const value = normalize(e.target.value);
-
+  listingEltraced.addEventListener('keyup', (f) => {
+    const value = normalize(f.target.value);
     // Filter visible features that match the input value.
     const filtered = [];
     for (const feature of traced_units) {
@@ -374,10 +288,8 @@ map.on('load', () => {
         filtered.push(feature);
       }
     }
-
     // Populate the sidebar with filtered results
-    renderListings_traced(filtered);
-
+    traced_renderListings(filtered);
     // Set the filter to populate features into the layer.
     if (filtered.length) {
       map.setFilter('traced_unit', [
@@ -391,34 +303,52 @@ map.on('load', () => {
       ]);
     }
   });
-
   // Call this function on initialization
   // passing an empty array to render an empty state
-  renderListings_traced([]);
+  renderListings([]);
+  traced_renderListings([]);
 });
 
+// Define the district filter function
+function filterPolygons(property) {
+  if (property === '') {
+    // Show all polygons if no property is selected
+    return ['!=', 'pc11_district_id', ''];
+  } else {
+    // Show only polygons with the selected property
+    var filter = ['==', 'pc11_district_id', property];
+    return filter;
 
-// Toggle layers
+  }
+}
 
-// listen for changes to the toggle inputs
-var layer1Toggle = document.getElementById('rj-districts-toggle');
-layer1Toggle.addEventListener('change', function() {
-  var visibility = this.checked ? 'visible' : 'none';
-  map.setLayoutProperty('rj_district', 'visibility', visibility);
+// Listen for changes to the dropdown element
+var dropdownChoice = document.getElementById('polygons');
+dropdownChoice.addEventListener('change', function() {
+  // Get the selected value from the dropdown
+  var selectedProperty = this.value;
+  // Update the filter function with the selected property
+  map.setFilter('rj_district', filterPolygons(selectedProperty));
+  map.setFilter('traced_unit', filterPolygons(selectedProperty));
+  map.setFilter('declared_unit', filterPolygons(selectedProperty));
 });
 
-var layer2Toggle = document.getElementById('declared-units-toggle');
-layer2Toggle.addEventListener('change', function() {
-  var visibility = this.checked ? 'visible' : 'none';
-  map.setLayoutProperty('declared_unit', 'visibility', visibility);
-});
+dropdownChoice.addEventListener('change', function() {
+  var selectedProperty = this.value;
+  // Fly to selected district center
+  var features = map.querySourceFeatures('rj_districts', {
+    sourceLayer: 'rj_districts-cvu7zr',
+    filter: ['==', 'pc11_district_id', selectedProperty]
+  });
+  var center = turf.center(features[0]).geometry.coordinates;
+  var zoom = 6; // Set the desired zoom level here
+  map.flyTo({
+    center: center,
+    zoom: zoom
+  });
+})
 
-var layer3Toggle = document.getElementById('traced-units-toggle');
-layer3Toggle.addEventListener('change', function() {
-  var visibility = this.checked ? 'visible' : 'none';
-  map.setLayoutProperty('traced_unit', 'visibility', visibility);
-});
-
+// TOGGLE BUTTONS
 // Add a function to update the map view when layer visibility changes
 function updateMap() {
   var layers = ['rj_district', 'declared_unit', 'traced_unit'];
@@ -432,21 +362,25 @@ function updateMap() {
   map.setLayoutProperty('declared_unit', 'visibility', visibleLayers.indexOf('declared_unit') !== -1 ? 'visible' : 'none');
   map.setLayoutProperty('traced_unit', 'visibility', visibleLayers.indexOf('traced_unit') !== -1 ? 'visible' : 'none');
 }
+// listen for changes to the toggle inputs
+var layer1Toggle = document.getElementById('rj-districts-toggle');
+layer1Toggle.addEventListener('change', function() {
+  var visibility = this.checked ? 'visible' : 'none';
+  map.setLayoutProperty('rj_district', 'visibility', visibility);
+});
+var layer2Toggle = document.getElementById('declared-units-toggle');
+layer2Toggle.addEventListener('change', function() {
+  var visibility = this.checked ? 'visible' : 'none';
+  map.setLayoutProperty('declared_unit', 'visibility', visibility);
+});
+var layer3Toggle = document.getElementById('traced-units-toggle');
+layer3Toggle.addEventListener('change', function() {
+  var visibility = this.checked ? 'visible' : 'none';
+  map.setLayoutProperty('traced_unit', 'visibility', visibility);
+});
 
 // Attach the updateMap function to the checkboxes
 document.getElementById('rj-districts-toggle').addEventListener('change', updateMap);
 document.getElementById('declared-units-toggle').addEventListener('change', updateMap);
 document.getElementById('traced-units-toggle').addEventListener('change', updateMap);
 
-// dynamically input total numbers in header
-window.addEventListener('DOMContentLoaded', (event) => {
-  // Get the length of your features
-  var totalUnits = 12500;
-  var tracedUnits = declared_units.length;
-  var declaredUnits = traced_units.length;
-
-  // Update the HTML elements with the calculated values
-  document.getElementById('total-units').textContent = totalUnits;
-  document.getElementById('traced-units').textContent = tracedUnits;
-  document.getElementById('declared-units').textContent = declaredUnits;
-});
