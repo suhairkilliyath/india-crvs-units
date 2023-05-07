@@ -119,6 +119,10 @@ function renderListings(features) {
   }
 }
 
+function normalize(string) {
+  return string.trim().toLowerCase();
+  }
+
 function getUniqueFeatures(features, comparatorProperty) {
   const uniqueIds = new Set();
   const uniqueFeatures = [];
@@ -152,8 +156,8 @@ map.on('load', () => {
 
   map.on('movestart', () => {
     // Get the selected option from the dropdown menu
+    const dropdown = document.getElementById('polygons');
     const selectedOption = dropdown.value;
-
     // Generate the desired filter based on the selected property
     const desiredFilter = filterPolygons(selectedOption);
 
@@ -366,7 +370,7 @@ map.on('load', () => {
     const filtered = [];
     for (const feature of traced_units) {
       const name = normalize(feature.properties.formatted_address);
-      if (formatted_address.includes(value)) {
+      if (name.includes(value)) {
         filtered.push(feature);
       }
     }
