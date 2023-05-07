@@ -143,7 +143,7 @@ map.on('load', () => {
   });
   map.addLayer({
     'id': 'declared_unit',
-    'source': 'decalred_units',
+    'source': 'declared_units',
     'source-layer': 'declared_units-a9dcnd',
     'type': 'circle',
     'paint': {
@@ -438,3 +438,15 @@ document.getElementById('rj-districts-toggle').addEventListener('change', update
 document.getElementById('declared-units-toggle').addEventListener('change', updateMap);
 document.getElementById('traced-units-toggle').addEventListener('change', updateMap);
 
+// dynamically input total numbers in header
+window.addEventListener('DOMContentLoaded', (event) => {
+  // Get the length of your features
+  var totalUnits = 12500;
+  var tracedUnits = declared_units.length;
+  var declaredUnits = traced_units.length;
+
+  // Update the HTML elements with the calculated values
+  document.getElementById('total-units').textContent = totalUnits;
+  document.getElementById('traced-units').textContent = tracedUnits;
+  document.getElementById('declared-units').textContent = declaredUnits;
+});
