@@ -336,9 +336,10 @@ dropdownChoice.addEventListener('change', function() {
     filter: ['==', 'pc11_district_id', selectedProperty]
   });
   var center = turf.center(features[0]).geometry.coordinates;
-  var zoom = 6; // Set the desired zoom level here
+  var zoom = 7; // Set the desired zoom level here
   map.flyTo({
     center: center,
+    duration: 2000,
     zoom: zoom
   });
 })
