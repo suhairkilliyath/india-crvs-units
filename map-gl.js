@@ -21,6 +21,8 @@ function renderListings(features) {
     for (const feature of features) {
       const itemLink = document.createElement('a');
       const label = `${feature.properties.unit_name} (${feature.properties.unit_type})`;
+      itemLink.href = feature.properties.gmap_link;
+      itemLink.target = '_blank';
       itemLink.textContent = label;
       itemLink.addEventListener('mouseover', () => {
         // Highlight corresponding feature on the map
@@ -71,6 +73,8 @@ function traced_renderListings(features) {
     for (const feature of features) {
       const itemLink = document.createElement('a');
       const label = `${feature.properties.formatted_address} (${feature.properties.unit_type})`;
+      itemLink.href = feature.properties.gmap_link;
+      itemLink.target = '_blank';
       itemLink.textContent = label;
       itemLink.addEventListener('mouseover', () => {
         // Highlight corresponding feature on the map
